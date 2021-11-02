@@ -16,8 +16,8 @@ ISP_UP = f"ip addr add {opc}0.{opc}0.{opc}0.1/24 dev {commands.INTERFACE_IN}"
 ISP_DOWN = f"ip addr add {opc}0.{opc}0.{opc}0.2/24 dev {commands.INTERFACE_OUT}"
 
 #limpiar
-ejecutar_command("/usr/sbin/tc qdisc del dev enp7s0 root")
-ejecutar_command("/usr/sbin/tc qdisc del dev enp7s0 ingress")
+ejecutar_command("/usr/sbin/tc qdisc del dev enp8s0 root")
+ejecutar_command("/usr/sbin/tc qdisc del dev enp8s0 ingress")
 ejecutar_command("/usr/sbin/tc qdisc del dev ifb0 root")
 
 opc = int(input("Desea continuar?\n"))
