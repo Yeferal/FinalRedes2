@@ -1,5 +1,15 @@
 #!/bin/bash
 
+read -p "Ingrese el el minimo de ancho de banda (down): " BWD;
+read -p "Ingrese el el maximo de ancho de banda (up): " BWU;
+
+((BWIN=(BWU)*1024)) #ancho de banda total (bajada y subida) en Kbit
+((BWOUT=(BWD)*1024)) #ancho de banda total (bajada y subida) en Kbit
+echo "*********************************************"
+echo "* El ancho de banda total UP es de: ${BWIN}Kbit *"
+echo "* El ancho de banda total DOWN es de: ${BWOUT}Kbit *"
+echo "*********************************************"
+
 # interfaceCliente='enp0s10';
 interfaceISP='enp0s8';
 INTERFACE_IN='enp0s8';
@@ -38,12 +48,12 @@ ip link set dev $INTERFACE_OUT up
 
 #creando enlance para bajada
 /usr/sbin/tc  qdisc add dev $INTERFACE_IN root handle 1: htb
-/usr/sbin/tc  class add dev $INTERFACE_IN parent 1: classid 1:10 htb rate 2000kbit ceil 2000kbit
+/usr/sbin/tc  class add dev $INTERFACE_IN parent 1: classid 1:10 htb rate ${BWIN}kbit ceil ${BWIN}kbit
 /usr/sbin/tc qdisc add dev $INTERFACE_IN parent 1:10 handle 10: sfq perturb 10
 
 #Creando enlace para subida
 /usr/sbin/tc  qdisc add dev $INTERFACE_OUT root handle 1: htb
-/usr/sbin/tc  class add dev $INTERFACE_OUT parent 1: classid 1:10 htb rate 50kbit ceil 50kbit
+/usr/sbin/tc  class add dev $INTERFACE_OUT parent 1: classid 1:10 htb rate ${BWOUT}kbit ceil ${BWOUT}kbit
 /usr/sbin/tc qdisc add dev $INTERFACE_OUT parent 1:10 handle 10: sfq perturb 10
 
 #asignano ip a enlace
