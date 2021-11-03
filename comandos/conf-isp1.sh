@@ -26,7 +26,7 @@ ip addr add 10.10.10.1/24 dev $interfaceISP
 # ip addr add 10.10.$NUMISP0.2/24 dev $interfaceISP
 
 
-sudo modprobe ifb numifbs=1
+modprobe ifb numifbs=1
 
 ip link set dev $INTERFACE_OUT up
 /usr/sbin/tc  qdisc del dev $INTERFACE_IN root 2>/dev/null
